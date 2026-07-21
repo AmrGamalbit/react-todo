@@ -3,9 +3,12 @@ import "./App.css";
 import Header from "./Header";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
+import TodoCounter from "./TodoCounter";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  const totalCount = todos.length;
 
   const handleToggle = (id) => {
     setTodos(
@@ -34,7 +37,9 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header>
+        <TodoCounter completedCount={completedCount} totalCount={totalCount} />
+      </Header>
       <TodoForm onAddTodo={handleAdd} />
       <TodoList
         todos={todos}

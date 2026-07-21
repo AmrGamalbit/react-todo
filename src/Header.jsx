@@ -1,9 +1,7 @@
 function Header({ children }) {
   return (
-    <header>
-      <h2 className="text-4xl font-bold text-heading flex items-center justify-center m-10">
-        React ToDo
-      </h2>
+    <header className="flex flex-col items-center justify-center gap-1 mt-10 mb-5">
+      <h2 className="text-4xl font-bold text-heading">React ToDo</h2>
       {children}
     </header>
   );
