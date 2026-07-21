@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import Header from "./Header";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 
@@ -28,18 +29,12 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    setTodos(
-      todos.filter((todo) => {
-        todo.id !== id;
-      }),
-    );
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
     <>
-      <h2 className="text-4xl font-bold text-heading flex items-center justify-center m-10">
-        React ToDo
-      </h2>
+      <Header />
       <TodoForm onAddTodo={handleAdd} />
       <TodoList
         todos={todos}
