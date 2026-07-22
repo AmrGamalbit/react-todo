@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function TodoForm({ onAddTodo }) {
+function TodoForm({ inputRef, onAddTodo }) {
   const [inputValue, setInputValue] = useState("");
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -14,6 +14,7 @@ function TodoForm({ onAddTodo }) {
     <form className="flex w-1/2 mx-auto" onSubmit={handleSubmit}>
       <input
         type="text"
+        ref={inputRef}
         value={inputValue}
         onChange={handleChange}
         placeholder="Add a task"

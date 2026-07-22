@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import Header from "./Header";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import TodoCounter from "./TodoCounter";
+import EmptyState from "./EmptyState";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const completedCount = todos.filter((todo) => todo.completed).length;
   const totalCount = todos.length;
+  const inputRef = useRef(null);
 
   const handleToggle = (id) => {
     setTodos(
@@ -35,18 +37,25 @@ function App() {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const handleAddClick = () => {
+    inputRef.current.focus();
+  };
   return (
     <>
       <Header>
         <TodoCounter completedCount={completedCount} totalCount={totalCount} />
       </Header>
-      <TodoForm onAddTodo={handleAdd} />
-      <TodoList
-        todos={todos}
-        onToggle={handleToggle}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      <TodoForm inputRef={inputRef} onAddTodo={handleAdd} />
+      {todos.length > 0 ? (
+        <TodoList
+          todos={todos}
+          onToggle={handleToggle}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      ) : (
+        <EmptyState onAddClick={handleAddClick} />
+      )}
     </>
   );
 }
