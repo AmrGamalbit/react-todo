@@ -40,6 +40,10 @@ function App() {
   const handleAddClick = () => {
     inputRef.current.focus();
   };
+
+  const handleClearCompleted = () => {
+    setTodos(todos.filter((todo) => !todo.completed));
+  };
   return (
     <>
       <Header>
@@ -52,6 +56,7 @@ function App() {
           onToggle={handleToggle}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onClearCompleted={handleClearCompleted}
         />
       ) : (
         <EmptyState onAddClick={handleAddClick} />

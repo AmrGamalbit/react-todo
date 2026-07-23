@@ -20,7 +20,7 @@ function TodoItem({ title, completed, onToggle, onEdit, onDelete }) {
     }
   }, [isEditing]);
   return (
-    <div className="flex justify-between bg-surface items-center w-1/2 rounded-lg py-1 px-2 mx-auto">
+    <div className="flex justify-between bg-surface items-center w-full rounded-lg py-1 px-2 mx-auto">
       {isEditing ? (
         <input
           ref={inputRef}
