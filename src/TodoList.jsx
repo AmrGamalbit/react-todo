@@ -2,7 +2,7 @@ import TodoItem from "./TodoItem";
 
 function TodoList({ todos, onToggle, onEdit, onDelete, onClearCompleted }) {
   return (
-    <div className="flex flex-col flex-1 gap-4 my-5 mx-auto w-1/2 h-[60vh] ">
+    <div className="flex flex-col flex-1 gap-4 my-5 mx-auto w-1/2 h-[60vh] scrollbar-thin">
       <div className="overflow-y-auto flex flex-col gap-2 flex-1 h-3/4">
         {todos.map((todo) => (
           <TodoItem
