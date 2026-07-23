@@ -7,7 +7,9 @@ function TodoForm({ inputRef, onAddTodo }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddTodo(inputValue);
+    if (!inputValue.trim() == "") {
+      onAddTodo(inputValue);
+    }
     setInputValue("");
   };
   return (
