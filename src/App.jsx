@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import Header from "./Header";
 import TodoForm from "./TodoForm";
@@ -7,10 +7,15 @@ import TodoCounter from "./TodoCounter";
 import EmptyState from "./EmptyState";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const savedTodos = JSON.parse(localStorage.getItem("todos"));
+  const [todos, setTodos] = useState(savedTodos ?? []);
   const completedCount = todos.filter((todo) => todo.completed).length;
   const totalCount = todos.length;
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const handleToggle = (id) => {
     setTodos(
