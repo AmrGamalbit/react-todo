@@ -25,8 +25,8 @@ function App() {
     );
   };
 
-  const handleAdd = (title) => {
-    const newTodo = { id: Date.now(), title, completed: false };
+  const handleAdd = (todoData) => {
+    const newTodo = { id: Date.now(), ...todoData, completed: false };
     setTodos([newTodo, ...todos]);
   };
 

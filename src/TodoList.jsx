@@ -8,6 +8,7 @@ function TodoList({ todos, onToggle, onEdit, onDelete, onClearCompleted }) {
           <TodoItem
             key={todo.id}
             title={todo.title}
+            dueDate={todo.dueDate}
             completed={todo.completed}
             onToggle={() => onToggle(todo.id)}
             onEdit={(newTitle) => onEdit(todo.id, newTitle)}

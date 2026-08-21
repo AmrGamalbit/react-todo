@@ -1,28 +1,40 @@
 import { useState } from "react";
 
 function TodoForm({ inputRef, onAddTodo }) {
-  const [inputValue, setInputValue] = useState("");
+  const [todoData, setTodoData] = useState({ title: "", dueDate: "" });
   const handleChange = (e) => {
-    setInputValue(e.target.value);
+    const { name, value } = e.target;
+    setTodoData((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputValue.trim() == "") {
-      onAddTodo(inputValue);
+    if (!todoData.title.trim() == "") {
+      onAddTodo(todoData);
     }
-    setInputValue("");
+    setTodoData({ title: "", dueDate: "" });
   };
   return (
-    <form className="flex w-1/2 mx-auto" onSubmit={handleSubmit}>
+    <form
+      className="flex w-1/2 mx-auto bg-surface text-body rounded-lg overflow-hidden"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
+        name="title"
         ref={inputRef}
-        value={inputValue}
+        value={todoData.title}
         onChange={handleChange}
         placeholder="Add a task"
-        className="bg-surface text-body p-2 outline-none flex-1 rounded-l-lg placeholder:text-muted"
+        className="p-2 outline-none flex-1 placeholder:text-muted"
       />
-      <button className="bg-primary text-surface p-2 cursor-pointer rounded-r-lg">
+      <input
+        type="date"
+        name="dueDate"
+        value={todoData.dueDate}
+        onChange={handleChange}
+        className="p-2 text-sm tracking-wider font-bold outline-none border-l border-border shrink-0"
+      />
+      <button className="bg-primary text-surface p-2 cursor-pointer">
         Add
       </button>
     </form>
