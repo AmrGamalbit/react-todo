@@ -1,16 +1,55 @@
-# React + Vite
+# React ToDo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application for creating and tracking your daily tasks. This app serves as my very first React project, focusing on core concepts like state management, side effects, and component architecture.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend:** React, Vite
+- **Styling:** Tailwind CSS
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Full CRUD Functionality:** Easily add, edit, and delete your tasks.
+- **Local Storage Persistence:** Your todos are automatically saved locally so you won't lose them when you refresh or close the browser.
+- **Due Dates:** Assign specific deadlines to your tasks to keep your schedule on track.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+Follow these steps to get a local copy up and running.
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org) installed (v18 or higher recommended).
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com
+   cd react-todo
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:5173` in your browser to view the app.
+
+## Project Structure
+
+```text
+src/
+├── components/   # Reusable UI components
+├── App.tsx       # Main app layout and routing
+└── main.tsx      # Application entry point
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
