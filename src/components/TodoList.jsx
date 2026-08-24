@@ -1,4 +1,4 @@
-import TodoItem from "./components/TodoItem";
+import TodoItem from "./TodoItem";
 
 function TodoList({ todos, onToggle, onEdit, onDelete, onClearCompleted }) {
   return (
