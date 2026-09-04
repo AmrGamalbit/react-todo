@@ -6,6 +6,7 @@ import TodoForm from "./components/TodoForm";
 import TodoCounter from "./components/TodoCounter";
 import EmptyState from "./components/EmptyState";
 import TodoList from "./components/TodoList";
+import ProjectSidebar from "./components/ProjectSidebar";
 
 function App() {
   const [todos, setTodos] = useLocalStorage("todos", []);
@@ -45,24 +46,31 @@ function App() {
   const handleClearCompleted = () => {
     setTodos(todos.filter((todo) => !todo.completed));
   };
+
   return (
-    <>
-      <Header>
-        <TodoCounter completedCount={completedCount} totalCount={totalCount} />
-      </Header>
-      <TodoForm inputRef={inputRef} onAddTodo={handleAdd} />
-      {todos.length > 0 ? (
-        <TodoList
-          todos={todos}
-          onToggle={handleToggle}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onClearCompleted={handleClearCompleted}
-        />
-      ) : (
-        <EmptyState onAddClick={handleAddClick} />
-      )}
-    </>
+    <div className="flex min-h-screen">
+      <ProjectSidebar />
+      <main className="flex-1">
+        <Header>
+          <TodoCounter
+            completedCount={completedCount}
+            totalCount={totalCount}
+          />
+        </Header>
+        <TodoForm inputRef={inputRef} onAddTodo={handleAdd} />
+        {todos.length > 0 ? (
+          <TodoList
+            todos={todos}
+            onToggle={handleToggle}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onClearCompleted={handleClearCompleted}
+          />
+        ) : (
+          <EmptyState onAddClick={handleAddClick} />
+        )}
+      </main>
+    </div>
   );
 }
 

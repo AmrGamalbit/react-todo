@@ -33,7 +33,7 @@ function TodoForm({ inputRef, onAddTodo }) {
   };
   return (
     <form
-      className="flex items-center gap-2 w-1/2 mx-auto bg-surface text-body rounded-lg overflow-hidden"
+      className="flex items-center gap-2 w-1/2 mx-auto bg-surface text-body rounded-lg"
       onSubmit={handleSubmit}
     >
       <input
@@ -63,7 +63,7 @@ function TodoForm({ inputRef, onAddTodo }) {
         onChange={handleChange}
         className="pl-2 text-sm tracking-wider font-bold outline-none border-l border-border shrink-0"
       />
-      <button className="bg-primary text-surface p-2 cursor-pointer">
+      <button className="bg-primary text-surface p-2 cursor-pointer shrink-0 rounded-r-lg">
         Add
       </button>
     </form>
