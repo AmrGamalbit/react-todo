@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import useLocalStorage from "./hooks/useLocalStorage";
 import "./App.css";
 import Header from "./components/Header";
 import TodoForm from "./components/TodoForm";
@@ -7,42 +6,39 @@ import TodoCounter from "./components/TodoCounter";
 import EmptyState from "./components/EmptyState";
 import TodoList from "./components/TodoList";
 import ProjectSidebar from "./components/ProjectSidebar";
+import useCollection from "./hooks/useCollection";
 
 function App() {
-  const [todos, setTodos] = useLocalStorage("todos", []);
-  const [projects, setProjects] = useLocalStorage("projects", [
-    { id: 0, title: "Do the project" },
-    { id: 1, title: "Do the laundry" },
-    { id: 2, title: "Do the breakfast" },
-  ]);
+  const {
+    items: todos,
+    setItems: setTodos,
+    addItem: addTodo,
+    updateItem: updateTodo,
+    removeItem: removeTodo,
+  } = useCollection("todos", []);
+
+  const {
+    items: projects,
+    addItem: addProject,
+    removeItem: removeProject,
+  } = useCollection("projects", []);
 
   const completedCount = todos.filter((todo) => todo.completed).length;
   const totalCount = todos.length;
   const inputRef = useRef(null);
 
   const handleToggle = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
+    const todo = todos.filter((todo) => todo.id == id)
+    updateTodo(id, {completed: !todo.complete})
   };
 
-  const handleAdd = (todoData) => {
-    const newTodo = { id: Date.now(), ...todoData, completed: false };
-    setTodos([newTodo, ...todos]);
+  const handleAddTodo = (todoData) => {
+    const newTodo = { ...todoData, completed: false };
+    addTodo(newTodo);
   };
 
-  const handleEdit = (id, newTitle) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, title: newTitle } : todo,
-      ),
-    );
-  };
-
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id != id));
+  const handleEditTodo = (id, newTitle) => {
+    updateTodo(id, { title: newTitle });
   };
 
   const handleAddClick = () => {
@@ -50,21 +46,21 @@ function App() {
   };
 
   const handleClearCompleted = () => {
-    setTodos(todos.filter((todo) => !todo.completed));
+    setTodos((prevTodos) => prevTodos.filter((todo) => !todo.completed));
   };
 
-  const handleProjectAdd = (project) => {
-    const newProject = { id: Date.now(), title: project };
-    setProjects([newProject, ...projects]);
-  };
-
-  const handleProjectDelete = (id) => {
-    setProjects(projects.filter((project) => project.id != id));
+  const handleAddProject = (project) => {
+    const newProject = { title: project };
+    addProject(newProject);
   };
 
   return (
     <div className="flex min-h-screen">
-      <ProjectSidebar projects={projects} onDelete={handleProjectDelete} onAdd={handleProjectAdd} />
+      <ProjectSidebar
+        projects={projects}
+        onDelete={removeProject}
+        onAdd={handleAddProject}
+      />
       <main className="flex-1">
         <Header>
           <TodoCounter
@@ -72,13 +68,13 @@ function App() {
             totalCount={totalCount}
           />
         </Header>
-        <TodoForm inputRef={inputRef} onAddTodo={handleAdd} />
+        <TodoForm inputRef={inputRef} onAddTodo={handleAddTodo} />
         {todos.length > 0 ? (
           <TodoList
             todos={todos}
             onToggle={handleToggle}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+            onEdit={handleEditTodo}
+            onDelete={removeTodo}
             onClearCompleted={handleClearCompleted}
           />
         ) : (
