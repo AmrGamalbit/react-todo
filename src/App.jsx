@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import "./App.css";
 import Header from "./components/Header";
 import TodoForm from "./components/TodoForm";
 import TodoCounter from "./components/TodoCounter";
@@ -7,6 +6,7 @@ import EmptyState from "./components/EmptyState";
 import TodoList from "./components/TodoList";
 import ProjectSidebar from "./components/ProjectSidebar";
 import useCollection from "./hooks/useCollection";
+import { PanelLeft } from "lucide-react";
 
 function App() {
   const {
@@ -23,7 +23,8 @@ function App() {
     removeItem: removeProject,
   } = useCollection("projects", []);
   const [currentProjectId, setCurrentProjectId] = useState(projects[0]);
-  const visibleTodos = todos.filter((todo) => todo.project == currentProjectId)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const visibleTodos = todos.filter((todo) => todo.project == currentProjectId);
 
   const completedCount = visibleTodos.filter((todo) => todo.completed).length;
   const totalCount = visibleTodos.length;
@@ -35,7 +36,11 @@ function App() {
   };
 
   const handleAddTodo = (todoData) => {
-    const newTodo = { ...todoData, completed: false, project: currentProjectId };
+    const newTodo = {
+      ...todoData,
+      completed: false,
+      project: currentProjectId,
+    };
     addTodo(newTodo);
   };
 
@@ -58,17 +63,30 @@ function App() {
 
   const handleEditProject = (id, newTitle) => {
     updateProject(id, { title: newTitle });
-  };  
+  };
+
+  const handlePanelToggle = () => setIsSidebarOpen((prev) => !prev);
 
   return (
     <div className="flex min-h-screen">
-      <ProjectSidebar
-        projects={projects}
-        onSelect={setCurrentProjectId}
-        onEdit={handleEditProject}
-        onDelete={removeProject}
-        onAdd={handleAddProject}
-      />
+      {isSidebarOpen ? (
+        <ProjectSidebar
+          projects={projects}
+          onSelect={setCurrentProjectId}
+          onEdit={handleEditProject}
+          onDelete={removeProject}
+          onAdd={handleAddProject}
+          onPanelToggle={handlePanelToggle}
+        />
+      ) : (<div className="bg-surface border-r border-border-strong px-2 py-5 flex items-end">
+        <button
+          className="text-primary hover:text-primary-hover transition-colors"
+          onClick={handlePanelToggle}
+        >
+          <PanelLeft size={18} />
+        </button></div>
+      )}
+
       <main className="flex-1">
         <Header>
           <TodoCounter
