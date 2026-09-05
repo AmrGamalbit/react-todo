@@ -10,7 +10,6 @@ function ProjectForm({ onAdd }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!project.trim() == "") {
-      console.log('fd')
       onAdd(project);
     }
     setProject("");

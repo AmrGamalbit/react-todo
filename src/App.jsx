@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodoForm from "./components/TodoForm";
@@ -16,24 +16,26 @@ function App() {
     updateItem: updateTodo,
     removeItem: removeTodo,
   } = useCollection("todos", []);
-
   const {
     items: projects,
     addItem: addProject,
+    updateItem: updateProject,
     removeItem: removeProject,
   } = useCollection("projects", []);
+  const [currentProjectId, setCurrentProjectId] = useState(projects[0]);
+  const visibleTodos = todos.filter((todo) => todo.project == currentProjectId)
 
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length;
+  const completedCount = visibleTodos.filter((todo) => todo.completed).length;
+  const totalCount = visibleTodos.length;
   const inputRef = useRef(null);
 
   const handleToggle = (id) => {
-    const todo = todos.filter((todo) => todo.id == id)
-    updateTodo(id, {completed: !todo.complete})
+    const todo = todos.filter((todo) => todo.id == id);
+    updateTodo(id, { completed: !todo.complete });
   };
 
   const handleAddTodo = (todoData) => {
-    const newTodo = { ...todoData, completed: false };
+    const newTodo = { ...todoData, completed: false, project: currentProjectId };
     addTodo(newTodo);
   };
 
@@ -54,10 +56,16 @@ function App() {
     addProject(newProject);
   };
 
+  const handleEditProject = (id, newTitle) => {
+    updateProject(id, { title: newTitle });
+  };  
+
   return (
     <div className="flex min-h-screen">
       <ProjectSidebar
         projects={projects}
+        onSelect={setCurrentProjectId}
+        onEdit={handleEditProject}
         onDelete={removeProject}
         onAdd={handleAddProject}
       />
@@ -71,7 +79,7 @@ function App() {
         <TodoForm inputRef={inputRef} onAddTodo={handleAddTodo} />
         {todos.length > 0 ? (
           <TodoList
-            todos={todos}
+            todos={visibleTodos}
             onToggle={handleToggle}
             onEdit={handleEditTodo}
             onDelete={removeTodo}
