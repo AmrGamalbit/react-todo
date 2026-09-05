@@ -9,7 +9,7 @@ function ProjectSidebar({
   onDelete,
   onEdit,
   onSelect,
-  onPanelToggle,
+  onToggle,
 }) {
   return (
     <aside className="bg-surface w-72 flex flex-col justify-between border-r border-border-strong px-2 py-5">
@@ -33,7 +33,7 @@ function ProjectSidebar({
           </div>
           <button
             className="text-primary hover:text-primary-hover transition-colors"
-            onClick={onPanelToggle}
+            onClick={onToggle}
           >
             <PanelLeft size={18} />
           </button>

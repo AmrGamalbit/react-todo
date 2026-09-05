@@ -7,6 +7,7 @@ import TodoList from "./components/TodoList";
 import ProjectSidebar from "./components/ProjectSidebar";
 import useCollection from "./hooks/useCollection";
 import { PanelLeft } from "lucide-react";
+import CollapsedSidebar from "./components/CollapsedSidebar";
 
 function App() {
   const {
@@ -31,7 +32,7 @@ function App() {
   const inputRef = useRef(null);
 
   const handleToggle = (id) => {
-    const todo = todos.filter((todo) => todo.id == id);
+    const todo = todos.find((todo) => todo.id == id);
     updateTodo(id, { completed: !todo.complete });
   };
 
@@ -88,7 +89,8 @@ function App() {
           <TodoForm inputRef={inputRef} onAddTodo={handleAddTodo} />
           <EmptyState
             heading="No tasks yet"
-            actionLabel="Add your first task to this project"
+            message="Add your first task to this project"
+            actionLabel="Add task"
             onAction={() => inputRef.current.focus()}
           />
         </>
@@ -119,17 +121,10 @@ function App() {
           onEdit={handleEditProject}
           onDelete={removeProject}
           onAdd={handleAddProject}
-          onPanelToggle={handlePanelToggle}
+          onToggle={handlePanelToggle}
         />
       ) : (
-        <div className="bg-surface border-r border-border-strong px-2 py-5 flex items-end">
-          <button
-            className="text-primary hover:text-primary-hover transition-colors"
-            onClick={handlePanelToggle}
-          >
-            <PanelLeft size={18} />
-          </button>
-        </div>
+        <CollapsedSidebar onToggle={handlePanelToggle}/>
       )}
 
       <main className="flex-1">
