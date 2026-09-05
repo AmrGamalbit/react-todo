@@ -10,6 +10,12 @@ import ProjectSidebar from "./components/ProjectSidebar";
 
 function App() {
   const [todos, setTodos] = useLocalStorage("todos", []);
+  const [projects, setProjects] = useLocalStorage("projects", [
+    { id: 0, title: "Do the project" },
+    { id: 1, title: "Do the laundry" },
+    { id: 2, title: "Do the breakfast" },
+  ]);
+
   const completedCount = todos.filter((todo) => todo.completed).length;
   const totalCount = todos.length;
   const inputRef = useRef(null);
@@ -36,7 +42,7 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos(todos.filter((todo) => todo.id != id));
   };
 
   const handleAddClick = () => {
@@ -47,9 +53,18 @@ function App() {
     setTodos(todos.filter((todo) => !todo.completed));
   };
 
+  const handleProjectAdd = (project) => {
+    const newProject = { id: Date.now(), title: project };
+    setProjects([newProject, ...projects]);
+  };
+
+  const handleProjectDelete = (id) => {
+    setProjects(projects.filter((project) => project.id != id));
+  };
+
   return (
     <div className="flex min-h-screen">
-      <ProjectSidebar />
+      <ProjectSidebar projects={projects} onDelete={handleProjectDelete} onAdd={handleProjectAdd} />
       <main className="flex-1">
         <Header>
           <TodoCounter
