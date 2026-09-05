@@ -22,8 +22,8 @@ function App() {
     updateItem: updateProject,
     removeItem: removeProject,
   } = useCollection("projects", []);
-  const [currentProjectId, setCurrentProjectId] = useState(projects[0]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [currentProjectId, setCurrentProjectId] = useState(projects?.[0]?.id);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const visibleTodos = todos.filter((todo) => todo.project == currentProjectId);
 
   const completedCount = visibleTodos.filter((todo) => todo.completed).length;
@@ -48,10 +48,6 @@ function App() {
     updateTodo(id, { title: newTitle });
   };
 
-  const handleAddClick = () => {
-    inputRef.current.focus();
-  };
-
   const handleClearCompleted = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => !todo.completed));
   };
@@ -67,24 +63,73 @@ function App() {
 
   const handlePanelToggle = () => setIsSidebarOpen((prev) => !prev);
 
+  const getContent = () => {
+    if (projects.length == 0) {
+      return (
+        <EmptyState
+          heading="No projects yet"
+          message="Create your first project to get started"
+          actionLabel="Create project"
+          onAction={() => setIsSidebarOpen(true)}
+        />
+      );
+    } else if (projects.length > 1 && !currentProjectId) {
+      return (
+        <EmptyState
+          heading="No projects selected"
+          message="Select a project from the sidebar to see its tasks"
+          actionLabel="View projects"
+          onAction={() => setIsSidebarOpen(true)}
+        />
+      );
+    } else if (visibleTodos.length == 0) {
+      return (
+        <>
+          <TodoForm inputRef={inputRef} onAddTodo={handleAddTodo} />
+          <EmptyState
+            heading="No tasks yet"
+            actionLabel="Add your first task to this project"
+            onAction={() => inputRef.current.focus()}
+          />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <TodoForm inputRef={inputRef} onAddTodo={handleAddTodo} />
+          <TodoList
+            todos={visibleTodos}
+            onToggle={handleToggle}
+            onEdit={handleEditTodo}
+            onDelete={removeTodo}
+            onClearCompleted={handleClearCompleted}
+          />
+        </>
+      );
+    }
+  };
+
   return (
     <div className="flex min-h-screen">
       {isSidebarOpen ? (
         <ProjectSidebar
           projects={projects}
+          currentProject={currentProjectId}
           onSelect={setCurrentProjectId}
           onEdit={handleEditProject}
           onDelete={removeProject}
           onAdd={handleAddProject}
           onPanelToggle={handlePanelToggle}
         />
-      ) : (<div className="bg-surface border-r border-border-strong px-2 py-5 flex items-end">
-        <button
-          className="text-primary hover:text-primary-hover transition-colors"
-          onClick={handlePanelToggle}
-        >
-          <PanelLeft size={18} />
-        </button></div>
+      ) : (
+        <div className="bg-surface border-r border-border-strong px-2 py-5 flex items-end">
+          <button
+            className="text-primary hover:text-primary-hover transition-colors"
+            onClick={handlePanelToggle}
+          >
+            <PanelLeft size={18} />
+          </button>
+        </div>
       )}
 
       <main className="flex-1">
@@ -94,18 +139,7 @@ function App() {
             totalCount={totalCount}
           />
         </Header>
-        <TodoForm inputRef={inputRef} onAddTodo={handleAddTodo} />
-        {todos.length > 0 ? (
-          <TodoList
-            todos={visibleTodos}
-            onToggle={handleToggle}
-            onEdit={handleEditTodo}
-            onDelete={removeTodo}
-            onClearCompleted={handleClearCompleted}
-          />
-        ) : (
-          <EmptyState onAddClick={handleAddClick} />
-        )}
+        {getContent()}
       </main>
     </div>
   );

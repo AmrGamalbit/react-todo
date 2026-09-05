@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Trash } from "lucide-react";
 
-function ProjectItem({ project, onDelete, onEdit, onSelect }) {
+function ProjectItem({ project, onDelete, onEdit, onSelect, isSelected }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(project.title);
   const inputRef = useRef(null);
@@ -17,7 +17,9 @@ function ProjectItem({ project, onDelete, onEdit, onSelect }) {
   };
 
   return (
-    <div className="flex hover:bg-bg transition-colors p-1 rounded">
+    <div
+      className={`flex transition-colors p-1 rounded ${isSelected ? "bg-primary/10 text-primary hover:bg-primary-hover/20" : "bg-surface hover:bg-bg"}`}
+    >
       <div className="flex-1">
         {isEditing ? (
           <input

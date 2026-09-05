@@ -4,6 +4,7 @@ import { PanelLeft } from "lucide-react";
 
 function ProjectSidebar({
   projects,
+  currentProject,
   onAdd,
   onDelete,
   onEdit,
@@ -17,6 +18,7 @@ function ProjectSidebar({
         <div className="border-t border-mute py-5">
           <ProjectList
             projects={projects}
+            currentProject={currentProject}
             onDelete={onDelete}
             onEdit={onEdit}
             onSelect={onSelect}
