@@ -1,6 +1,7 @@
 # React ToDo
 
-A React application for creating and tracking your daily tasks. This app serves as my very first React project, focusing on core concepts like state management, side effects, and component architecture.
+A React application for creating and tracking your daily tasks.
+In this app, you can create and manage projects, add tasks to projects, and assign due dates and priority to them, and filter todos by today.
 
 ## Tech Stack
 
@@ -9,10 +10,11 @@ A React application for creating and tracking your daily tasks. This app serves 
 
 ## Features
 
-- **Full CRUD Functionality:** Easily add, edit, and delete your tasks.
+- **Full CRUD Functionality:** Easily add, edit, and delete your tasks or projects.
 - **Local Storage Persistence:** Your todos are automatically saved locally so you won't lose them when you refresh or close the browser.
 - **Due Dates:** Assign specific deadlines to your tasks to keep your schedule on track.
-
+- **Priority:** Assign priority to your tasks.
+- **Today Filter:** Filter todos by today to see only today's tasks.
 
 ## Getting Started
 
@@ -45,9 +47,11 @@ Make sure you have [Node.js](https://nodejs.org) installed (v18 or higher recomm
 
 ```text
 src/
-├── components/   # Reusable UI components
-├── App.tsx       # Main app layout and routing
-└── main.tsx      # Application entry point
+├── components/     # Reusable UI components
+├── hooks/          # Custom hooks (useCollection, useLocalStorage)
+├── constants.js    # App-wide constants
+├── App.jsx         # Main app layout and state
+└── main.jsx        # Application entry point
 ```
 
 ## License
